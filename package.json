@@ -1,0 +1,20 @@
+{
+  "name": "crawlee-scraper-service",
+  "version": "1.0.0",
+  "description": "Microserviço de scraping open-source com Crawlee para Google Maps e Instagram integrado ao n8n",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test:maps": "node tests/test_maps.js"
+  },
+  "dependencies": {
+    "crawlee": "^3.12.2",
+    "playwright": "^1.49.1",
+    "cheerio": "^1.0.0",
+    "express": "^4.21.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7"
+  }
+}
