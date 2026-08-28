@@ -1,16 +1,27 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { scrapeGoogleMaps } from './scrapers/googleMaps.js';
 import { scrapeInstagram } from './scrapers/instagram.js';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
+
+// Serve static public assets (avatars, icons, signatures)
+app.use('/public', express.static(path.join(__dirname, '../public'), {
+  maxAge: '30d',
+  immutable: true
+}));
 
 // Healthcheck
 app.get('/health', (req, res) => {
@@ -85,6 +96,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Crawlee Scraper Service rodando em http://0.0.0.0:${PORT}`);
   console.log(`📌 Endpoints disponíveis:`);
   console.log(`   - GET  /health`);
+  console.log(`   - GET  /public/*`);
   console.log(`   - POST /api/scrape/maps`);
   console.log(`   - POST /api/scrape/instagram`);
 });
